@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&family=Ubuntu");
+
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+$color-main: #212c42;
+$color-secondary: #151c2b;
+$color-btn: #525a6a;
+$color-green-light: #a3ea2a;
+$color-red-light: #eb0037;
+
+body {
+  background-color: $color-main;
+  min-height: 100vh;
+  color: #ececec;
+  font-family: "Source Sans Pro", "Ubuntu", sans-serif !important;
+}
+
+// wraper for footer/body
+.wrapper {
+  background-color: $color-main;
+  min-height: 100vh;
+}
+
+// footer style
+.offical-footer {
+  background-color: $color-secondary;
+  border-bottom: 0.1px solid #ececec7a;
+  padding: 1rem 0;
+}
+
+// default heading style
+.font-heading {
+  font-size: calc(1.325rem + 0.9vw);
+  font-weight: 500;
+  font-family: "Source Sans Pro", "Ubuntu", sans-serif !important;
+}
+.green-light {
+  color: $color-green-light;
+}
+.bg-light {
+  background-color: $color-btn;
+}
+.alert-red {
+  color: $color-red-light;
+}
+.popup-offical {
+  z-index: 100;
+  .popup-offical-container {
+    background-color: $color-secondary;
+    overflow: hidden;
+  }
+}
+.popup-checklist {
+  z-index: 100;
+  .popup-checklist-container {
+    background-color: $color-secondary;
+    overflow: hidden;
+  }
+}
+
+.check-lists {
+  position: absolute;
+  left: 36%;
+  display: none;
+  i {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: $color-green-light;
+  }
+}
+.check-1 {
+  top: 23%;
+}
+.check-2 {
+  top: 37.4%;
+}
+.check-3 {
+  top: 52.4%;
+}
+.check-4 {
+  top: 67.4%;
+}
+// button styles & animation
+@import "./modules/btnstyle";
+@import "./modules/animations";
+
+// responsivenss for small screens
+@media screen and (max-width: 750px) {
+  body {
+    padding: 0% !important;
+  }
+  .wrapper {
+    border: none;
+  }
+  .offical-footer {
+    padding: 0.5rem 0 !important;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    .image-container {
+      position: relative;
+      margin-bottom: 0.8rem;
+    }
+  }
+}
+
+.postion-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.postion-center-1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.bg-green-light {
+  background-color: $color-green-light;
+}
+.bg-red-light {
+  background-color: $color-red-light;
+}
+
+.main-image-container {
+  margin: auto;
+  overflow: auto;
+  position: relative;
+  &__bg {
+    width: 100%;
+    height: 100%;
+  }
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    cursor: pointer;
+  }
+}
+
+#movement {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  left: 36%;
+  top: 18%;
+  transition: 2s left;
+}
+#run {
+  background-color: transparent;
+  z-index: -100;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+}
+
+.screen-messages {
+  padding: 0.8rem;
+  background-color: gray;
+  overflow: hidden;
+  margin: 1rem 0;
+  &__container {
+    background-color: #151c2b;
+    padding: 0.5rem;
+    border: 10px solid white;
+    border-radius: 7px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  display: none;
+  // width: 250px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  top: -80%;
+  display: block;
+  font-size: 0.8rem;
+  width: 80px;
+  padding: 0.5rem;
+  background-color: $color-btn;
+}
