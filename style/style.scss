@@ -153,8 +153,16 @@ body {
   width: 1rem;
   height: 1rem;
   left: 36%;
-  top: 18%;
-  transition: 2s left;
+  top: 17%;
+  transition: 2s ease-in;
+
+  i {
+    font-size: 24px;
+    color: #a3ea2a;
+    &.wrong {
+      color: #eb0037;
+    }
+  }
 }
 #run {
   background-color: transparent;
@@ -169,15 +177,24 @@ body {
   background-color: gray;
   overflow: hidden;
   margin: 1rem 0;
+  border-radius: 10px;
+
   &__container {
     background-color: #151c2b;
     padding: 0.5rem;
     border: 10px solid white;
+    color: white;
     border-radius: 7px;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.error {
+      background: white;
+      border: 10px solid #7a1123;
+      color: #7a1123;
+    }
   }
 }
 

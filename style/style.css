@@ -2,7 +2,8 @@
 * {
   margin: 0%;
   padding: 0%;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body {
@@ -19,7 +20,7 @@ body {
 
 .offical-footer {
   background-color: #151c2b;
-  border-bottom: 0.1px solid rgba(236, 236, 236, 0.4784313725);
+  border-bottom: 0.1px solid #ececec7a;
   padding: 1rem 0;
 }
 
@@ -44,6 +45,7 @@ body {
 .popup-offical {
   z-index: 100;
 }
+
 .popup-offical .popup-offical-container {
   background-color: #151c2b;
   overflow: hidden;
@@ -52,6 +54,7 @@ body {
 .popup-checklist {
   z-index: 100;
 }
+
 .popup-checklist .popup-checklist-container {
   background-color: #151c2b;
   overflow: hidden;
@@ -62,6 +65,7 @@ body {
   left: 36%;
   display: none;
 }
+
 .check-lists i {
   font-size: 1.35rem;
   font-weight: 900;
@@ -90,13 +94,15 @@ body {
   padding: 1rem;
   margin-top: 1rem;
 }
+
 .btn-container button,
-.btn-container input[type=submit] {
+.btn-container input[type="submit"] {
   cursor: pointer;
   background-color: #525a6a;
   width: 50%;
   margin: auto;
   padding: 0.5rem 0;
+  -webkit-transition: 0.3s all ease-in-out;
   transition: 0.3s all ease-in-out;
   border-radius: 10px;
   font-weight: 400;
@@ -105,24 +111,28 @@ body {
   font-size: 1.2rem;
   font-family: "Source Sans Pro", "Ubuntu", sans-serif !important;
 }
+
 .btn-container button:hover,
-.btn-container input[type=submit]:hover {
+.btn-container input[type="submit"]:hover {
   background-color: #212c42;
   border: 1px solid #ececec;
 }
+
 .btn-container button:active,
-.btn-container input[type=submit]:active {
+.btn-container input[type="submit"]:active {
   outline: none;
 }
 
 .btn-container-2 {
   text-align: center;
 }
+
 .btn-container-2 button,
-.btn-container-2 input[type=submit] {
+.btn-container-2 input[type="submit"] {
   cursor: pointer;
   background-color: #525a6a;
   width: 100%;
+  -webkit-transition: 0.3s all ease-in-out;
   transition: 0.3s all ease-in-out;
   border-radius: 10px;
   font-weight: 400;
@@ -131,49 +141,80 @@ body {
   font-size: 1.2rem;
   font-family: "Source Sans Pro", "Ubuntu", sans-serif !important;
 }
+
 .btn-container-2 button:hover,
-.btn-container-2 input[type=submit]:hover {
+.btn-container-2 input[type="submit"]:hover {
   background-color: #212c42;
   outline: 1px solid #ececec;
   border: none;
 }
+
 .btn-container-2 button:active,
-.btn-container-2 input[type=submit]:active {
+.btn-container-2 input[type="submit"]:active {
   border: none;
 }
 
 @media screen and (max-width: 750px) {
   .btn-container button,
-  .btn-container input[type=submit] {
+  .btn-container input[type="submit"] {
     width: 80%;
   }
 }
+
 .slide-bottom {
+  -webkit-animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: slide-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
 }
 
 @keyframes slide-bottom {
   0% {
+    -webkit-transform: translateY(-100px);
     transform: translateY(-100px);
   }
   100% {
+    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
 }
+
+@-webkit-keyframes typing {
+  from {
+    width: 100%;
+  }
+  90%,
+  to {
+    width: 0;
+  }
+}
+
 @keyframes typing {
   from {
     width: 100%;
   }
-  90%, to {
+  90%,
+  to {
     width: 0;
   }
 }
+
 .typing-slider {
   position: relative;
 }
 
 .typing-slider h1 {
-  animation: slide 4s;
+  -webkit-animation: slide 4s;
+          animation: slide 4s;
 }
 
 .typing-slider h1::after {
@@ -183,7 +224,20 @@ body {
   right: 0;
   bottom: 0;
   background-color: #151c2b;
-  animation: typing 4s, cursor 4s;
+  -webkit-animation: typing 4s, cursor 4s;
+          animation: typing 4s, cursor 4s;
+}
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
 }
 
 @keyframes blink {
@@ -197,8 +251,10 @@ body {
     opacity: 0.7;
   }
 }
+
 .blink {
-  animation: blink 2s infinite;
+  -webkit-animation: blink 2s infinite;
+          animation: blink 2s infinite;
 }
 
 @media screen and (max-width: 750px) {
@@ -210,28 +266,40 @@ body {
   }
   .offical-footer {
     padding: 0.5rem 0 !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
   .offical-footer .image-container {
     position: relative;
     margin-bottom: 0.8rem;
   }
 }
+
 .postion-center {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .postion-center-1 {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   z-index: -1;
 }
 
@@ -248,10 +316,12 @@ body {
   overflow: auto;
   position: relative;
 }
+
 .main-image-container__bg {
   width: 100%;
   height: 100%;
 }
+
 .main-image-container__overlay {
   position: absolute;
   top: 0;
@@ -265,8 +335,18 @@ body {
   width: 1rem;
   height: 1rem;
   left: 36%;
-  top: 18%;
-  transition: 2s left;
+  top: 17%;
+  -webkit-transition: 2s ease-in;
+  transition: 2s ease-in;
+}
+
+#movement i {
+  font-size: 24px;
+  color: #a3ea2a;
+}
+
+#movement i.wrong {
+  color: #eb0037;
 }
 
 #run {
@@ -282,16 +362,31 @@ body {
   background-color: gray;
   overflow: hidden;
   margin: 1rem 0;
+  border-radius: 10px;
 }
+
 .screen-messages__container {
   background-color: #151c2b;
   padding: 0.5rem;
   border: 10px solid white;
+  color: white;
   border-radius: 7px;
   height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.screen-messages__container.error {
+  background: white;
+  border: 10px solid #7a1123;
+  color: #7a1123;
 }
 
 .tooltip {
@@ -320,4 +415,5 @@ body {
   width: 80px;
   padding: 0.5rem;
   background-color: #525a6a;
-}/*# sourceMappingURL=style.css.map */
+}
+/*# sourceMappingURL=style.css.map */

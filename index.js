@@ -39,13 +39,13 @@ const answers = {
       id: 5,
       message: "Extract IPs",
       answer: true,
-      subHeading: "Submit to VirusTota",
+      subHeading: "Submit to VirusTotal",
     },
     { id: 7, message: "Analyst Extraction", answer: false },
   ],
   screen4: [
     { id: 11, message: "Reputation Results Output", answer: true },
-    { id: 12, message: "Sandbox Testing ", answer: true },
+    { id: 12, message: "Sandbox Testing", answer: true },
     { id: 13, message: "Analyst Validation", answer: true },
   ],
   screen5: [
@@ -53,7 +53,7 @@ const answers = {
     { id: 42, message: "Block IPs", answer: true },
     { id: 46, message: "Block URLs", answer: true },
     { id: 43, message: "Update Case Tickets", answer: true },
-    { id: 44, message: "Anaylyst Approve COA", answer: true },
+    { id: 44, message: "Analyst Approve COA", answer: true },
   ],
 };
 let instruction =
@@ -99,7 +99,7 @@ const checkListPopup = () => {
       classes.includes("popup-close") ||
       classes.includes("popup-checklist")
     ) {
-      mainContainer.style.filter = "blur(0px)";
+      mainContainer.style.filter = "none";
       popup.remove();
     }
   });
@@ -155,7 +155,7 @@ let dataSet = {
         id: 5,
         message: "Extract IPs",
         answer: false,
-        subHeading: "Submit to VirusTota",
+        subHeading: "Submit to VirusTotal",
       },
       { id: 7, message: "Analyst Extraction", answer: false },
     ],
@@ -165,7 +165,7 @@ let dataSet = {
     heading2: "",
     options: [
       { id: 11, message: "Reputation Results Output", answer: false },
-      { id: 12, message: "Sandbox Testing ", answer: false },
+      { id: 12, message: "Sandbox Testing", answer: false },
       { id: 13, message: "Analyst Validation", answer: false },
     ],
   },
@@ -177,7 +177,7 @@ let dataSet = {
       { id: 42, message: "Block IPs", answer: false },
       { id: 46, message: "Block URLs", answer: false },
       { id: 43, message: "Update Case Tickets", answer: false },
-      { id: 44, message: "Anaylyst Approve COA", answer: false },
+      { id: 44, message: "Analyst Approve COA", answer: false },
     ],
   },
 };
@@ -211,12 +211,12 @@ const popupOffical = (heading, message, str) => {
   mainContainer.style.filter = "blur(2px)";
   document.querySelector(".popup-close").addEventListener("click", () => {
     document.querySelector(".popup-offical").remove();
-    mainContainer.style.filter = "blur(0px)";
+    mainContainer.style.filter = "none";
   });
   if (document.querySelector(".popup-remove")) {
     document.querySelector(".popup-remove").addEventListener("click", () => {
       document.querySelector(".popup-offical").remove();
-      mainContainer.style.filter = "blur(0px)";
+      mainContainer.style.filter = "none";
       if (str === "Restart") setTimeout(() => location.reload(), 1000);
     });
   }
@@ -266,73 +266,74 @@ const popupOfficalFlag = () => {
 
   document.querySelector(".popup-close").addEventListener("click", () => {
     document.querySelector(".popup-offical").remove();
-    mainContainer.style.filter = "blur(0px)";
+    mainContainer.style.filter = "none";
     setTimeout(() => {
       location.reload();
     }, 1000);
   });
 };
 
+const showDelayedMsg = (container, message) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      container.innerHTML = message;
+      resolve();
+    }, 1000);
+  });
+};
+
 let isLoading = true;
-const screenMessageShow = str => {
+const screenMessageShow = async (str, error = true) => {
   const container = document.querySelector(".screen-messages__container");
   let message;
 
-  if (str) {
-    if (isLoading && checkScreenSettingAuth()) {
-      message = `
-    <h1 class="text-center message text-xl green-light screen-message">Loading</h1>
-    `;
+  if (error) {
+    container.classList.add("error");
+  }
 
-      container.innerHTML = "";
-      container.insertAdjacentHTML("afterbegin", message);
-      const messageContainer = document.querySelector(".screen-message");
-      setTimeout(() => (messageContainer.innerHTML = "Loading ."), 1500);
-      setTimeout(() => (messageContainer.innerHTML = "Loading .."), 2500);
-      setTimeout(() => (messageContainer.innerHTML = "Loading ..."), 3500);
-
-      setTimeout(() => {
-        message = `
-        <h3 class="text-center message text-xl alert-red blink screen-message">${str}</h3>
-        `;
-        container.innerHTML = "";
-        container.insertAdjacentHTML("afterbegin", message);
-      }, 6000);
-
-      isLoading = false;
-      return;
-    }
-
-    setTimeout(() => {
-      message = `
-      <h3 class="text-center message text-xl alert-red blink screen-message">${str}</h3>
-      `;
-      container.innerHTML = "";
-      container.insertAdjacentHTML("afterbegin", message);
-    }, 1000);
-
-    return;
-  } else {
+  if (!str) {
     message = `
   <h1 class="screen-message text-center message text-xl green-light">Adopt a SOAR and set up automation workflows that will help you in your security
   investigations.</h1>
   `;
-
+    container.classList.remove("error");
     container.insertAdjacentHTML("afterbegin", message);
+    return;
   }
+
+  if (isLoading && checkScreenSettingAuth()) {
+    message = `<h1 class="text-center message text-xl green-light screen-message">Loading</h1>`;
+    container.innerHTML = message;
+
+    const messageContainer = document.querySelector(".screen-message");
+    await showDelayedMsg(messageContainer, "Loading .");
+    await showDelayedMsg(messageContainer, "Loading ..");
+    await showDelayedMsg(messageContainer, "Loading ...");
+
+    setTimeout(() => {
+      message = `<h3 class="text-center message text-xl screen-message">${str}</h3>`;
+      container.innerHTML = message;
+    }, 1000);
+
+    isLoading = false;
+    return;
+  }
+
+  message = `<h3 class="text-center message text-xl screen-message">${str}</h3>`;
+  container.innerHTML = message;
 };
 // Second screen temp/handler
 const firstScreenTemp = () => {
   const html = `
   <div class=" postion-center">
     <div class="screen-messages">
-      <div class="screen-messages__container typing-slider ">
+      <div class="screen-messages__container typing-slider error">
       </div>
     </div>
     <div class="m-auto flex items-center justify-between relative  w-[645px] md:w-[660px] main-image-container overflow-hidden" onmousemove="perimeterMouseover(event)">
       <img class="main-image-container__bg" src="./assests/images/room-image.png" alt="main-image" />
-      <div id="movement" class="hidden" >
-         <i class="fa-solid fa-circle-dot postion-center"></i>
+      <div id="movement" class="opacity-0">
+      <i class="fas fa-file"></i>
       </div>
      
       <img id="screen-1" class="main-image-container__overlay screens w-full" src="./assests/images/screen-1.png" alt="cover-image"/>
@@ -342,11 +343,6 @@ const firstScreenTemp = () => {
       <img id="screen-5" class="main-image-container__overlay screens w-full" src="./assests/images/screen-5.png" alt="cover-image"/>
       <img id="run" class="main-image-container__overlay  w-full" src="./assests/images/run.png" alt="run-image"/>
 
-    </div>
-
-
-    <div class="btn-container-2 mt-8 w-1/2 m-auto hidden">
-      <button class="start-btn">Show Result</button>
     </div>
 </div>
       `;
@@ -358,7 +354,7 @@ const firstScreenHandler = () => {
   mainContainer.innerHTML = "";
   mainContainer.insertAdjacentHTML("afterbegin", temp);
   popupOffical("Instructions", instruction, "Let's Proceed!");
-  screenMessageShow();
+  screenMessageShow(null, false);
   const allScreen = document.querySelectorAll(".screens");
   allScreen.forEach((elem, i) =>
     elem.addEventListener("click", () => {
@@ -549,11 +545,7 @@ const isWithin = (event, coords) => {
 
 // validating the result
 const compare = (arr1, arr2) => {
-  if (JSON.stringify(arr1) === JSON.stringify(arr2)) {
-    return true;
-  } else {
-    return false;
-  }
+  return JSON.stringify(arr1) === JSON.stringify(arr2);
 };
 const setScreenSettingAuth = str => {
   if (str === "screen1") {
@@ -592,16 +584,16 @@ const checkScreenSettingAuth = () => {
 };
 const points = {
   start: {
-    top: "18%",
+    top: "17%",
     left: "36%",
   },
   case: {
     left: "43.5%",
-    top: "18%",
+    top: "17%",
   },
   threat: {
     left: "50.5%",
-    top: "18%",
+    top: "17%",
   },
   data: {
     left: "63%",
@@ -613,84 +605,94 @@ const points = {
   },
   curse: {
     left: "78%",
-    top: "18%",
+    top: "17%",
   },
 };
 
+const moveFile = (answers, options, stage, prevStage, msg) => {
+  return new Promise(resolve => {
+    const movement = document.getElementById("movement");
+    const file = movement.children[0];
+
+    if (compare(answers, options)) {
+      movement.style.left = stage.left;
+      movement.style.top = stage.top;
+      resolve(true);
+      return;
+    }
+
+    file.classList.add("wrong");
+    movement.style.left = prevStage.left;
+    movement.style.top = prevStage.top;
+    screenMessageShow(msg);
+    resolve(false);
+  });
+};
+
 // matching setting movement
-const matchResultMovement = e => {
+const matchResultMovement = async e => {
   if (checkScreenSettingAuth() === false) {
     screenMessageShow(
       "Error: Please complete the Settings in order to activate the flowchart."
     );
     return;
   }
-  const movement = document.querySelector("#movement");
-  movement.style.display = "block";
-  movement.style.color = "white";
+  const movement = document.getElementById("movement");
+  const file = movement.children[0];
+  file.classList.remove("wrong");
+  movement.classList.remove("opacity-0");
 
-  if (compare(answers.screen1, dataSet.screen1.options)) {
-    movement.style.left = points.case.left;
-    movement.style.top = points.case.top;
-  } else {
-    movement.style.color = "#7A1123";
-    movement.style.left = points.start.left;
-    movement.style.top = points.start.top;
-    screenMessageShow("Error: Case Ticket setting is incorrect.");
-    return;
-  }
+  let res = await moveFile(
+    answers.screen1,
+    dataSet.screen1.options,
+    points.case,
+    points.start,
+    "Error: Case Ticket setting is incorrect."
+  );
+  if (!res) return;
 
-  if (compare(answers.screen2, dataSet.screen2.options)) {
-    movement.style.left = points.threat.left;
-    movement.style.top = points.threat.top;
-    movement.style.color = "white";
-  } else {
-    movement.style.color = "#7A1123";
-    movement.style.left = points.case.left;
-    movement.style.top = points.case.top;
-    screenMessageShow("Error: Threat intel setting is incorrect.");
-    return;
-  }
+  res = await moveFile(
+    answers.screen2,
+    dataSet.screen2.options,
+    points.threat,
+    points.case,
+    "Error: Threat Intel setting is incorrect."
+  );
+  if (!res) return;
 
-  if (compare(answers.screen3, dataSet.screen3.options)) {
-    movement.style.left = points.data.left;
-    movement.style.top = points.data.top;
-    movement.style.color = "white";
-  } else {
-    movement.style.left = points.threat.left;
-    movement.style.top = points.threat.top;
-    movement.style.color = "#7A1123";
-    screenMessageShow("Error: Data Extraction setting is incorrect.");
-    return;
-  }
+  res = await moveFile(
+    answers.screen3,
+    dataSet.screen3.options,
+    points.data,
+    points.threat,
+    "Error: Data Extraction setting is incorrect."
+  );
+  if (!res) return;
 
-  if (compare(answers.screen4, dataSet.screen4.options)) {
-    movement.style.left = points.reputation.left;
-    movement.style.top = points.reputation.top;
-    movement.style.color = "white";
-  } else {
-    movement.style.color = "#7A1123";
-    movement.style.left = points.data.left;
-    movement.style.top = points.data.top;
-    screenMessageShow("Error: Reputation check setting is incorrect.");
-    return;
-  }
+  res = await moveFile(
+    answers.screen4,
+    dataSet.screen4.options,
+    points.reputation,
+    points.data,
+    "Error: Reputation Checks setting is incorrect."
+  );
+  if (!res) return;
 
-  if (compare(answers.screen5, dataSet.screen5.options)) {
-    movement.style.left = points.curse.left;
-    movement.style.top = points.curse.top;
-    movement.style.color = "white";
-    setTimeout(() => {
-      popupOfficalFlag();
-    }, 2000);
-  } else {
-    movement.style.color = "#7A1123";
-    screenMessageShow("Error: Course action setting is incorrect.");
-    return;
-  }
+  res = await moveFile(
+    answers.screen5,
+    dataSet.screen5.options,
+    points.curse,
+    points.reputation,
+    "Error: Course of Actions setting is incorrect."
+  );
+  if (!res) return;
 
-  document.querySelector(".screen-message").style.color = "white";
-  document.querySelector(".screen-message").innerHTML = "Finished.";
+  const container = document.querySelector(".screen-messages__container");
+  const msgContainer = document.querySelector(".screen-message");
+  container.classList.remove("error");
+  msgContainer.classList.add("green-light");
+  msgContainer.innerHTML = "Completed!";
+  setTimeout(() => popupOfficalFlag(), 2000);
 };
 
 // main handler for all modules
