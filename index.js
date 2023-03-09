@@ -10,50 +10,140 @@ const screenShow = num => {
 
 const answers = {
   screen1: [
-    { id: 21, message: "Create Case Ticket", answer: true },
-    { id: 22, message: "Assign Case Ticket", answer: true },
-    { id: 23, message: "Communicate Case Ticket", answer: true },
-    { id: 24, message: "Update Case Ticket", answer: true },
-    { id: 25, message: "Delete Case Ticket", answer: false },
+    {
+      id: 21,
+      message: "Create Case Ticket",
+      answer: true,
+      subHeading: "Automated Using TheHive, ServiceNow",
+    },
+    {
+      id: 22,
+      message: "Assign Case Ticket",
+      answer: true,
+      subHeading: "Case management automated assignment",
+    },
+    {
+      id: 23,
+      message: "Communicate Case Ticket",
+      answer: true,
+      subHeading: "Integrated channels such as Email, Slack",
+    },
+    {
+      id: 24,
+      message: "Update Case Ticket",
+      answer: true,
+      subHeading: "Push APIs set for automated updates",
+    },
+    {
+      id: 25,
+      message: "Delete Case Ticket",
+      answer: false,
+      subHeading: "APIs set for automated deletion",
+    },
   ],
   screen2: [
-    { id: 31, message: "Fetch New Incident Alerts", answer: true },
-    { id: 32, message: "Set Fetch Intervals", answer: true },
-    { id: 33, message: "Failed Fetch Notifications", answer: true },
-    { id: 34, message: "Discard Old Alerts", answer: false },
+    {
+      id: 31,
+      message: "Fetch New Incident Alerts",
+      answer: true,
+      subHeading: "Automated using Threat Intel APIs",
+    },
+    {
+      id: 32,
+      message: "Set Fetch Intervals",
+      answer: true,
+      subHeading: "Pull APIs used to fetch data",
+    },
+    {
+      id: 33,
+      message: "Failed Fetch Notifications",
+      answer: true,
+      subHeading: `Automate using <a target="_blank" class="underline" href="https://abuse.ch/">Abuse.ch</a> APIs`,
+    },
+    {
+      id: 34,
+      message: "Discard Old Alerts",
+      answer: false,
+      subHeading: "APIs set for automated deletion",
+    },
   ],
   screen3: [
     {
       id: 1,
       message: "Extract Domains",
       answer: true,
-      subHeading: "Conduct Whois Lookup",
+      subHeading: "Automated Lookups",
     },
     {
       id: 3,
       message: "Extract URLs",
       answer: true,
-      subHeading: "Submit to VirusTotal",
+      subHeading: "Automated Lookups on VirusTotal",
     },
     {
       id: 5,
       message: "Extract IPs",
       answer: true,
-      subHeading: "Submit to VirusTotal",
+      subHeading: "Automated Lookups on VirusTotal",
     },
-    { id: 7, message: "Analyst Extraction", answer: false },
+    {
+      id: 7,
+      message: "Analyst Extraction",
+      answer: false,
+      subHeading: "Manual Data Extraction for Lookups",
+    },
   ],
   screen4: [
-    { id: 11, message: "Reputation Results Output", answer: true },
-    { id: 12, message: "Sandbox Testing", answer: true },
-    { id: 13, message: "Analyst Validation", answer: true },
+    {
+      id: 11,
+      message: "Reputation Results Output",
+      answer: true,
+      subHeading: "Automated Results on VirusTotal",
+    },
+    {
+      id: 12,
+      message: "Sandbox Testing",
+      answer: true,
+      subHeading: "Integrated using platforms such as Any.Run, Hybrid Analysis",
+    },
+    {
+      id: 13,
+      message: "Analyst Validation",
+      answer: true,
+      subHeading: "Manual analysis of results for confirmation",
+    },
   ],
   screen5: [
-    { id: 41, message: "Block Domains", answer: true },
-    { id: 42, message: "Block IPs", answer: true },
-    { id: 46, message: "Block URLs", answer: true },
-    { id: 43, message: "Update Case Tickets", answer: true },
-    { id: 44, message: "Analyst Approve COA", answer: true },
+    {
+      id: 41,
+      message: "Block Domains",
+      answer: true,
+      subHeading: "Firewall, Network Blacklist Rules",
+    },
+    {
+      id: 42,
+      message: "Block IPs",
+      answer: true,
+      subHeading: "Firewall, Network Blacklist Rules",
+    },
+    {
+      id: 46,
+      message: "Block URLs",
+      answer: true,
+      subHeading: "Firewall, Network Blacklist Rules",
+    },
+    {
+      id: 43,
+      message: "Update Case Tickets",
+      answer: true,
+      subHeading: "Automated Using TheHive, ServiceNow",
+    },
+    {
+      id: 44,
+      message: "Analyst Approve COA",
+      answer: true,
+      subHeading: "Confirmation of Actions",
+    },
   ],
 };
 let instruction =
@@ -113,72 +203,46 @@ const authenticateCheckList = () => {
   });
 };
 infomationIcons();
+const screen1Options = JSON.parse(JSON.stringify(answers.screen1));
+screen1Options.forEach(el => (el.answer = false));
+
+const screen2Options = JSON.parse(JSON.stringify(answers.screen2));
+screen2Options.forEach(el => (el.answer = false));
+
+const screen3Options = JSON.parse(JSON.stringify(answers.screen3));
+screen3Options.forEach(el => (el.answer = false));
+
+const screen4Options = JSON.parse(JSON.stringify(answers.screen4));
+screen4Options.forEach(el => (el.answer = false));
+
+const screen5Options = JSON.parse(JSON.stringify(answers.screen5));
+screen5Options.forEach(el => (el.answer = false));
+
 let dataSet = {
   screen1: {
     heading: "Case Management Settings",
     heading2: "Integrate Case Management",
-    options: [
-      { id: 21, message: "Create Case Ticket", answer: false },
-      { id: 22, message: "Assign Case Ticket", answer: false },
-      { id: 23, message: "Communicate Case Ticket", answer: false },
-      { id: 24, message: "Update Case Ticket", answer: false },
-      { id: 25, message: "Delete Case Ticket", answer: false },
-    ],
+    options: screen1Options,
   },
   screen2: {
     heading: "Threat Intelligence Feeds",
     heading2: "Integrate Threat Intel",
-    options: [
-      { id: 31, message: "Fetch New Incident Alerts", answer: false },
-      { id: 32, message: "Set Fetch Intervals", answer: false },
-      { id: 33, message: "Failed Fetch Notifications", answer: false },
-      { id: 34, message: "Discard Old Alerts", answer: false },
-    ],
+    options: screen2Options,
   },
   screen3: {
     heading: "Incident Data Extraction",
     heading2: "Extract Threat",
-    options: [
-      {
-        id: 1,
-        message: "Extract Domains",
-        answer: false,
-        subHeading: "Conduct Whois Lookup",
-      },
-      {
-        id: 3,
-        message: "Extract URLs",
-        answer: false,
-        subHeading: "Submit to VirusTotal",
-      },
-      {
-        id: 5,
-        message: "Extract IPs",
-        answer: false,
-        subHeading: "Submit to VirusTotal",
-      },
-      { id: 7, message: "Analyst Extraction", answer: false },
-    ],
+    options: screen3Options,
   },
   screen4: {
     heading: " Reputation Checks",
     heading2: "",
-    options: [
-      { id: 11, message: "Reputation Results Output", answer: false },
-      { id: 12, message: "Sandbox Testing", answer: false },
-      { id: 13, message: "Analyst Validation", answer: false },
-    ],
+    options: screen4Options,
   },
   screen5: {
     heading: "Course of Action",
     heading2: "",
-    options: [
-      { id: 41, message: "Block Domains", answer: false },
-      { id: 42, message: "Block IPs", answer: false },
-      { id: 46, message: "Block URLs", answer: false },
-      { id: 43, message: "Update Case Tickets", answer: false },
-      { id: 44, message: "Analyst Approve COA", answer: false },
-    ],
+    options: screen5Options,
   },
 };
 
@@ -302,13 +366,13 @@ const screenMessageShow = async (str, error = true) => {
   }
 
   // if (isLoading && checkScreenSettingAuth()) {
-    message = `<h1 class="text-center message text-xl green-light screen-message">Loading</h1>`;
-    container.innerHTML = message;
+  message = `<h1 class="text-center message text-xl green-light screen-message">Loading</h1>`;
+  container.innerHTML = message;
 
-    const messageContainer = document.querySelector(".screen-message");
-    await showDelayedMsg(messageContainer, "Loading .");
-    await showDelayedMsg(messageContainer, "Loading ..");
-    await showDelayedMsg(messageContainer, "Loading ...");
+  const messageContainer = document.querySelector(".screen-message");
+  await showDelayedMsg(messageContainer, "Loading .");
+  await showDelayedMsg(messageContainer, "Loading ..");
+  await showDelayedMsg(messageContainer, "Loading ...");
   // }
 
   isLoading = false;
@@ -402,6 +466,7 @@ const popupShowScreens = data => {
     document.querySelector(".popup-container").remove();
   }
 
+  console.log(data);
   const entries = data.options.map(el => checkItems(el));
 
   const html = `
