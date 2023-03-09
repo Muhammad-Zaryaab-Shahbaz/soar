@@ -301,7 +301,7 @@ const screenMessageShow = async (str, error = true) => {
     return;
   }
 
-  if (isLoading && checkScreenSettingAuth()) {
+  // if (isLoading && checkScreenSettingAuth()) {
     message = `<h1 class="text-center message text-xl green-light screen-message">Loading</h1>`;
     container.innerHTML = message;
 
@@ -309,16 +309,9 @@ const screenMessageShow = async (str, error = true) => {
     await showDelayedMsg(messageContainer, "Loading .");
     await showDelayedMsg(messageContainer, "Loading ..");
     await showDelayedMsg(messageContainer, "Loading ...");
+  // }
 
-    setTimeout(() => {
-      message = `<h3 class="text-center message text-xl screen-message">${str}</h3>`;
-      container.innerHTML = message;
-    }, 1000);
-
-    isLoading = false;
-    return;
-  }
-
+  isLoading = false;
   message = `<h3 class="text-center message text-xl screen-message">${str}</h3>`;
   container.innerHTML = message;
 };
@@ -343,6 +336,13 @@ const firstScreenTemp = () => {
       <img id="screen-5" class="main-image-container__overlay screens w-full" src="./assests/images/screen-5.png" alt="cover-image"/>
       <img id="run" class="main-image-container__overlay  w-full" src="./assests/images/run.png" alt="run-image"/>
 
+      <div class="tooltips">
+        <div class="tooltips__tips" id="tooltips__tips"><h5>Use the settings to Integrate Case Management Workflow.</h5></div>
+        <div class="tooltips__tips" id="tooltips__tips"><h5>Use the settings to Integrate Threat Intel Workflow.</h5></div>
+        <div class="tooltips__tips" id="tooltips__tips"><h5>Use the settings to Extract Threats.</h5></div>
+        <div class="tooltips__tips" id="tooltips__tips"><h5>Use the settings to Perform Reputation Checks.</h5></div>
+        <div class="tooltips__tips" id="tooltips__tips"><h5>Use the settings to Set the Course of Actions.</h5></div>
+      </div>
     </div>
 </div>
       `;
@@ -440,21 +440,29 @@ const showImagesAndCheckAnwe = (e, index) => {
 };
 
 // to check the is within coordinates
-const screen1Coords = [{ x: [143, 209], y: [166, 221] }];
-const screen2Coords = [{ x: [215, 289], y: [172, 230] }];
+const screen1Coords = [{ x: [143, 195], y: [166, 211] }];
+const screen2Coords = [{ x: [222, 286], y: [183, 222] }];
 const screen3Coords = [{ x: [304, 391], y: [180, 241] }];
 const screen4Coords = [{ x: [400, 501], y: [181, 260] }];
 const screen5Coords = [{ x: [517, 639], y: [184, 278] }];
 
 const runCoords = [{ x: [286, 374], y: [247, 291] }];
-const toggleZIndex = (elem, value = false) => {
+const toggleZIndex = (elem, value = false, tooltip) => {
   let zIndex = "-1";
+  let display = "none";
 
   if (value) {
     zIndex = "1";
+    display = "block";
   }
+
   if (elem.style.zIndex !== zIndex) {
     elem.style.zIndex = zIndex;
+  }
+  if (tooltip) {
+    if (tooltip.style.display !== display) {
+      tooltip.style.display = display;
+    }
   }
 };
 
@@ -466,41 +474,41 @@ const perimeterMouseover = event => {
   const screen3Image = document.getElementById("screen-3");
   const screen4Image = document.getElementById("screen-4");
   const screen5Image = document.getElementById("screen-5");
-  const mainImage = document.querySelector(".main-image-container__bg");
   const runImage = document.querySelector("#run");
+  const allToolTips = document.querySelectorAll("#tooltips__tips");
 
   if (isWithin(base, screen1Coords)) {
-    toggleZIndex(screen1Image, true);
+    toggleZIndex(screen1Image, true, allToolTips[0]);
     return;
   } else {
-    toggleZIndex(screen1Image, false);
+    toggleZIndex(screen1Image, false, allToolTips[0]);
   }
   if (isWithin(base, screen2Coords)) {
-    toggleZIndex(screen2Image, true);
+    toggleZIndex(screen2Image, true, allToolTips[1]);
     return;
   } else {
-    toggleZIndex(screen2Image, false);
+    toggleZIndex(screen2Image, false, allToolTips[1]);
   }
 
   if (isWithin(base, screen3Coords)) {
-    toggleZIndex(screen3Image, true);
+    toggleZIndex(screen3Image, true, allToolTips[2]);
     return;
   } else {
-    toggleZIndex(screen3Image, false);
+    toggleZIndex(screen3Image, false, allToolTips[2]);
   }
 
   if (isWithin(base, screen4Coords)) {
-    toggleZIndex(screen4Image, true);
+    toggleZIndex(screen4Image, true, allToolTips[3]);
     return;
   } else {
-    toggleZIndex(screen4Image, false);
+    toggleZIndex(screen4Image, false, allToolTips[3]);
   }
 
   if (isWithin(base, screen5Coords)) {
-    toggleZIndex(screen5Image, true);
+    toggleZIndex(screen5Image, true, allToolTips[4]);
     return;
   } else {
-    toggleZIndex(screen5Image, false);
+    toggleZIndex(screen5Image, false, allToolTips[4]);
   }
 
   if (isWithin(base, runCoords)) {
@@ -629,6 +637,89 @@ const moveFile = (answers, options, stage, prevStage, msg) => {
   });
 };
 
+function checkArrayExtraction(arr) {
+  let falseCount = 0;
+  for (let i = 0; i < 3; i++) {
+    if (arr[i] === false) {
+      falseCount++;
+    }
+  }
+  if (falseCount > 1) {
+    return false;
+  }
+  if (arr[3] !== true) {
+    return false;
+  }
+  return true;
+}
+
+const moveFileDataExtraction = (answers, options, stage, prevStage, msg) => {
+  return new Promise(resolve => {
+    const movement = document.getElementById("movement");
+    const file = movement.children[0];
+
+    if (compare(answers, options)) {
+      movement.style.left = stage.left;
+      movement.style.top = stage.top;
+      resolve(true);
+      return;
+    }
+
+    const opt = [];
+    options.forEach(el => opt.push(el.answer));
+
+    if (checkArrayExtraction(opt)) {
+      movement.style.left = stage.left;
+      movement.style.top = stage.top;
+      resolve(true);
+      return;
+    }
+
+    file.classList.add("wrong");
+    movement.style.left = prevStage.left;
+    movement.style.top = prevStage.top;
+    screenMessageShow(msg);
+    resolve(false);
+  });
+};
+const moveFileDataReputation = (
+  answers,
+  options,
+  prevAnswerFourth,
+  stage,
+  prevStage,
+  msg
+) => {
+  return new Promise(resolve => {
+    const movement = document.getElementById("movement");
+    const file = movement.children[0];
+
+    if (compare(answers, options) && prevAnswerFourth) {
+      movement.style.left = stage.left;
+      movement.style.top = stage.top;
+      resolve(true);
+      return;
+    }
+    if (
+      prevAnswerFourth == false &&
+      options[0].answer == true &&
+      options[1].answer == false &&
+      options[2].answer == false
+    ) {
+      movement.style.left = stage.left;
+      movement.style.top = stage.top;
+      resolve(true);
+      return;
+    }
+
+    file.classList.add("wrong");
+    movement.style.left = prevStage.left;
+    movement.style.top = prevStage.top;
+    screenMessageShow(msg);
+    resolve(false);
+  });
+};
+
 // matching setting movement
 const matchResultMovement = async e => {
   if (checkScreenSettingAuth() === false) {
@@ -650,7 +741,6 @@ const matchResultMovement = async e => {
     "Error: Case Ticket setting is incorrect."
   );
   if (!res) return;
-
   res = await moveFile(
     answers.screen2,
     dataSet.screen2.options,
@@ -660,7 +750,7 @@ const matchResultMovement = async e => {
   );
   if (!res) return;
 
-  res = await moveFile(
+  res = await moveFileDataExtraction(
     answers.screen3,
     dataSet.screen3.options,
     points.data,
@@ -669,9 +759,10 @@ const matchResultMovement = async e => {
   );
   if (!res) return;
 
-  res = await moveFile(
+  res = await moveFileDataReputation(
     answers.screen4,
     dataSet.screen4.options,
+    dataSet.screen3.options[3].answer,
     points.reputation,
     points.data,
     "Error: Reputation Checks setting is incorrect."
