@@ -293,22 +293,21 @@ const screenMessageShow = async (str, error = true) => {
 
   if (!str) {
     message = `
-  <h1 class="screen-message text-center message text-xl green-light">Adopt a SOAR and set up automation workflows that will help you in your security
-  investigations.</h1>
-  `;
+  <h1 class="screen-message text-center message text-xl green-light">Adjust the Settings for automated and 
+  manual flows to adopt a SOAR and set up automation workflows that will help you in your security investigations.</h1>`;
     container.classList.remove("error");
     container.insertAdjacentHTML("afterbegin", message);
     return;
   }
 
   // if (isLoading && checkScreenSettingAuth()) {
-    message = `<h1 class="text-center message text-xl green-light screen-message">Loading</h1>`;
-    container.innerHTML = message;
+  message = `<h1 class="text-center message text-xl green-light screen-message">Loading</h1>`;
+  container.innerHTML = message;
 
-    const messageContainer = document.querySelector(".screen-message");
-    await showDelayedMsg(messageContainer, "Loading .");
-    await showDelayedMsg(messageContainer, "Loading ..");
-    await showDelayedMsg(messageContainer, "Loading ...");
+  const messageContainer = document.querySelector(".screen-message");
+  await showDelayedMsg(messageContainer, "Loading .");
+  await showDelayedMsg(messageContainer, "Loading ..");
+  await showDelayedMsg(messageContainer, "Loading ...");
   // }
 
   isLoading = false;
